@@ -1,4 +1,4 @@
-import { MAX_ANGLE, MIN_ANGLE, MIN_MATCH, RESET_MISSES_ON_POP, ROWS_ALLOWED, type Rank } from './config';
+import { MAX_ANGLE, MIN_ANGLE, MIN_MATCH, ROWS_ALLOWED, type Rank } from './config';
 import { Grid, type Cell, type Color, type Point } from './grid';
 import { generateBoard, generateRow } from './level';
 import { findCluster, findFloating, makeShot, snapToCell, stepShot, type Shot } from './logic';
@@ -160,8 +160,9 @@ export class Game {
         this.emit({ type: 'drop', orbs: dropped, points: dropTotal });
       }
       this.addScore(points + dropTotal);
-      if (RESET_MISSES_ON_POP) this.misses = 0;
     } else {
+      // Only misses count towards the ceiling dropping. A popping shot leaves the counter alone;
+      // it clears when a new row arrives.
       this.combo = 0;
       this.misses++;
       if (this.misses >= this.missLimit) {

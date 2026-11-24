@@ -20,10 +20,6 @@ export const MIN_ANGLE = 0.2; // radians above horizontal (keeps shots from goin
 export const MAX_ANGLE = Math.PI - 0.2;
 export const POP_STAGGER = 0.04; // seconds between chain-reaction pops
 
-// Does a popping shot reset the "ceiling drops" counter? Classic feel says no:
-// only misses count, and the counter clears when a new row arrives.
-export const RESET_MISSES_ON_POP = false;
-
 export const ORB_TYPES = 6;
 
 /** What one level looks like. Each mode (src/game/modes.ts) decides these per level. */

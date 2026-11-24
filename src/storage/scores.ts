@@ -19,8 +19,8 @@ export interface ScoreStore {
   best(mode: ModeId): number;
   /** Would this score make the mode's leaderboard? */
   qualifies(mode: ModeId, score: number): boolean;
-  /** Adds a score; returns its 0-based position on the leaderboard, or -1 if it did not make it. */
-  add(mode: ModeId, entry: ScoreEntry): number;
+  /** Adds a score, keeping only the best ten for that mode. */
+  add(mode: ModeId, entry: ScoreEntry): void;
   clear(mode: ModeId): void;
 }
 
@@ -57,14 +57,12 @@ export class LocalScoreStore implements ScoreStore {
     return list.length < MAX_ENTRIES || score > list[list.length - 1].score;
   }
 
-  add(mode: ModeId, entry: ScoreEntry): number {
+  add(mode: ModeId, entry: ScoreEntry) {
     const table = this.table();
     const list = this.top(mode);
     list.push(entry);
     list.sort((a, b) => b.score - a.score || a.date - b.date);
-    const kept = list.slice(0, MAX_ENTRIES);
-    write(SCORES_KEY, { ...table, [mode]: kept });
-    return kept.indexOf(entry);
+    write(SCORES_KEY, { ...table, [mode]: list.slice(0, MAX_ENTRIES) });
   }
 
   clear(mode: ModeId) {

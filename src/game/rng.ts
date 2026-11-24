@@ -12,7 +12,7 @@ export function mulberry32(seed: number): Rng {
   };
 }
 
-export function randInt(rng: Rng, n: number): number {
+function randInt(rng: Rng, n: number): number {
   return Math.floor(rng() * n);
 }
 

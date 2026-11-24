@@ -122,11 +122,4 @@ export class Grid {
     }
     return -1;
   }
-
-  clone(): Grid {
-    const g = new Grid();
-    g.parity = this.parity;
-    g.rows = this.rows.map((row) => row.slice());
-    return g;
-  }
 }
